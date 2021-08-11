@@ -1,0 +1,126 @@
+server:
+  port: 8005
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+# 数据源基本配置
+  datasource:
+    url: jdbc:mysql://10.2.29.121:3306/pipms?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+  # 连接池配置
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+  # 连接等待超时时间
+      max-wait: 30000
+  # 配置检测可以关闭的空闲连接间隔时间
+      time-between-eviction-runs-millis: 60000
+  # 配置连接在池中的最小生存时间
+      min-evictable-idle-time-millis: 300000
+      validation-query: select '1' from dual
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      filter:
+        stat:
+          enabled: true
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 2000
+      web-stat-filter:
+        enabled: true
+        exclusions:
+          - "*.js"
+          - "*.gif"
+          - "*.jpg"
+          - "*.png"
+          - "*.css"
+          - "*.icon"
+
+          - "/druid/*"
+  #redis配置
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 3
+    # Redis服务器地址
+    host: 10.2.29.121
+    # Redis服务器连接端口
+    port: 6379
+    #以下redis配置为默认
+    jedis:
+      pool:
+    # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 8
+    # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1
+    # 连接池中的最大空闲连接
+        max-idle: 8
+    # 连接池中的最小空闲连接
+        min-idle: 0
+    # 连接超时时间（毫秒）
+    timeout: 0
+# mybatis-plus相关配置
+# mybatis-plus相关配置
+mybatis-plus:
+# xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
+# mapper-locations: classpath:mapper/*.xml
+#实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.le.entity
+
+# 以下配置均有默认值,可以不设置
+  global-config:
+    db-config:
+#主键类型 AUTO:"数据库ID自增" INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: ID_WORKER
+#字段策略 IGNORED:"忽略判断" NOT_NULL:"非 NULL 判断") NOT_EMPTY:"非空判断"
+      insert-strategy: NOT_EMPTY
+      update-strategy: NOT_EMPTY
+# 全局逻辑删除的实体字段名
+      logic-delete-field: deleted
+# 逻辑已删除值(默认为 1)
+      logic-delete-value: 1
+# 逻辑未删除值(默认为 0)
+      logic-not-delete-value: 0
+#自定义SQL注入器
+      sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+  configuration:
+# 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    map-underscore-to-camel-case: true
+# 返回map时true:当查询数据为空时字段返回为null,false:不加这个查询数据为空时，字段将被隐藏
+    call-setters-on-nulls: true
+# 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#Shiro配置
+shiro:
+  user:
+    loginUrl: /login
+    unauthorizedUrl: /unauth
+# unauthenticUrl: /unauthentic
+    indexUrl: /index
+  cookie:
+    domain:
+    path: /
+    httpOnly: false
+    maxAge: 30
+  session:
+    expireTime: 30
+# 同步session到数据库的周期（默认10分钟）
+    dbSyncPeriod: 10
+# 相隔多久检查一次session的有效性，默认就是10分钟
+    validationInterval: 30
+# 同一个用户最大会话数，比如2的意思是同一个账号允许最多同时两个人登录（默认-1不限制）
+    maxSession: 1
+# 踢出之前登录的/之后登录的用户，默认踢出之前登录的用户
+    kickoutAfter: false
+ldap:
+#连接ldap的账号
+account: 661595
+#连接ldap的密码
+password: Yujie*0909
